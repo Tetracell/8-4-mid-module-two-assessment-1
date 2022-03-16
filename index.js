@@ -32,9 +32,7 @@ const exampleMovies = require("./movies");
     ];
  */
 function getAllMovieTitles(movies) { //Good
-  if (!movies.length) {
-    throw "Movies is empty";
-  }
+  catchError(movies);
   let titles = movies.map((movie) => {
     return movie.title;
   });
@@ -60,9 +58,7 @@ function getAllMovieTitles(movies) { //Good
  *  //> false
  */
 function checkIfAnyMovieHasRating(movies, rating = 'G') { //Good
-  if (!movies.length) {
-    throw "No movies";
-  }
+  catchError(movies);
   return movies.some((movie) => movie.rated == rating);
 }
 
@@ -83,7 +79,7 @@ function checkIfAnyMovieHasRating(movies, rating = 'G') { //Good
     };
  */
 function findById(movies, id) { // Good
-  if (!movies.length) throw "No movies";
+  catchError(movies);
   const movieFinder = movies.find((movie) => movie.imdbID == id);
   return (movieFinder == undefined ? null : movieFinder); // if movieFinder == undefined return null ELSE return movieFinder
 }
@@ -111,9 +107,7 @@ function findById(movies, id) { // Good
  *  //> []
  */
 function filterByGenre(movies, genre) { //Good, ugly? -- Shorten this sometime, forgot .includes() exists
-  if (!movies.length) {
-    throw "Empty array";
-  }
+  catchError(movies);
   genre = genre.toLowerCase();
 
   return movies.filter((movie) => {
@@ -153,9 +147,7 @@ function filterByGenre(movies, genre) { //Good, ugly? -- Shorten this sometime, 
     ];
  */
 function getAllMoviesReleasedAtOrBeforeYear(movies, year) { //Good
-  if (!movies) {
-    throw "Error";
-  }
+  catchError(movies);
   return movies.filter((movie) => {
     let released = movie.released.split(' '); //Split the released value
     if (parseInt(released[2]) <= year) { //Parse the year as integer, compare to year. I hope this doesn't count as a hard coded value, assuming that the date will always be laid out the same and the year will be at index 2.
@@ -209,9 +201,8 @@ function checkMinMetascores(movies, metascore) { //Good
     ];
  */
 function getRottenTomatoesScoreByMovie(movies) { // Good
-  if (!movies.length) {
-    throw "Error bruv";
-  }
+  catchError(movies);
+
   return movies.map((movie) => {
     let rtScore = movie.ratings.find((rating) => rating.source == "Rotten Tomatoes").value;
     //Above line originally rtscore = movie.find((movie) => movie.ratings.source == "Rotten Tomatoes") Was too shallow, remember to dig greedily and deep - there lies Mithril.
@@ -220,6 +211,10 @@ function getRottenTomatoesScoreByMovie(movies) { // Good
     }
     return newMovies;
   });
+}
+
+const catchError = (movies) => {
+  if (!movies.length) throw "ERROR : Invalid Movie Array";
 }
 
 // Do not change anything below this line.
