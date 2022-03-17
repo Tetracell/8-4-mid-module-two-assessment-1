@@ -170,9 +170,7 @@ function getAllMoviesReleasedAtOrBeforeYear(movies, year) { //Good
  *  //>  false
  */
 function checkMinMetascores(movies, metascore) { //Good
-  if (!movies) {
-    throw "Error";
-  }
+  catchError(movies);
   return movies.every((movie) => parseInt(movie.metascore) >= metascore);
 }
 
@@ -213,7 +211,7 @@ function getRottenTomatoesScoreByMovie(movies) { // Good
 
 const catchError = (movies) => {
   if (!movies.length) throw "ERROR : Invalid Movie Array";
-}
+};
 
 // Do not change anything below this line.
 module.exports = {
