@@ -204,12 +204,10 @@ function getRottenTomatoesScoreByMovie(movies) { // Good
   catchError(movies);
 
   return movies.map((movie) => {
-    let rtScore = movie.ratings.find((rating) => rating.source == "Rotten Tomatoes").value;
+    let rottenScore = movie.ratings.find((rating) => rating.source == "Rotten Tomatoes").value;
     //Above line originally rtscore = movie.find((movie) => movie.ratings.source == "Rotten Tomatoes") Was too shallow, remember to dig greedily and deep - there lies Mithril.
-    let newMovies = {
-      [movie.title]: rtScore
-    }
-    return newMovies;
+    return {[movie.title] : rottenScore};
+    
   });
 }
 
